@@ -64,4 +64,4 @@ def combine_dataset(*dfs):
         name = 'df'
 
     response = model.generate_content(f"i wish to combine multiple datasets with same feature which have different coloumn names. these will be given to you in this form {features}. You need to group similar coloumns together and return to me in form a library like:{{\"coloumn_name\" : [list of similar coloumns in other datasets]}}i do not require any code just return to me what you think the output should be")
-    return response.parts
+    return response
