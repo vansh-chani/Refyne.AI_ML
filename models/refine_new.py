@@ -17,7 +17,7 @@ import os
 warnings.filterwarnings('ignore')
 
 class DataQualityEnhancer:
-    def __init__(self, memory_efficient=True, chunk_size=10000):
+    def __init__(self, memory_efficient=True, chunk_size=10000, perf_dfs = False):
        
         self.column_types = {}
         self.categorical_encoders = {}
@@ -25,6 +25,8 @@ class DataQualityEnhancer:
         self.memory_efficient = memory_efficient
         self.chunk_size = chunk_size
         self.scalers = {}
+        self.perf_dfs = perf_dfs
+
         
     def optimize_dtypes(self, df):
        
@@ -349,9 +351,11 @@ class DataQualityEnhancer:
             df_clean = self.handle_missing_data(df_optimized)
             
            
-            print("Performing Deep Feature Synthesis...")
-            df_features = self.perform_dfs(df_clean, primitives_config)
-            
+            if self.perf_dfs:
+                print("Performing Deep Feature Synthesis...")
+                df_features = self.perform_dfs(df_clean, primitives_config)
+            else:
+                df_features = df.clean
             
             print("Removing correlated features...")
             df_uncorrelated = self.remove_correlated_features(df_features)
